@@ -23,9 +23,11 @@ public class TestComparison {
         RealMatrix a = MatrixUtils.createRealMatrix(inA);
         double eps = 0.01;
 
-        double[] xTrial = {30, 10, 5, 5, 20, 60, 15, 30};
-        InteriorPointAlgorithm algorithm = new InteriorPointAlgorithm(inA, inB[0], inC[0], xTrial, 0.5, eps);
-        
+        //double[] xTrial = {30, 10, 5, 5, 20, 60, 15, 30};
+        //InteriorPointAlgorithm algorithm = new InteriorPointAlgorithm(inA, inB[0], inC[0], xTrial, 0.5, eps);
+
+        InteriorPointAlgorithm algorithm = new InteriorPointAlgorithm(inA, inB[0], inC[0], 0.5, eps);
+
         Assert.assertEquals(algorithm.maximize(), Simplex.maximize(c, a, b, inC[0], inA, inB[0], eps, true), eps*2);
     }
 }

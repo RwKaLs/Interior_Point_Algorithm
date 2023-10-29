@@ -7,8 +7,19 @@ class InteriorPointAlgorithm {
     private final double[] B;
     private final double[] C;
     private final double[] xTrial;
+    private final boolean trialInput;
     private final double alpha;
     private final double epsilon;
+
+    public InteriorPointAlgorithm(double[][] A, double[] B, double[] C, double alpha, double epsilon) {
+        this.A = A;
+        this.B = B;
+        this.C = C;
+        xTrial = null;
+        this.alpha = alpha;
+        this.epsilon = epsilon;
+        trialInput = false;
+    }
 
     public InteriorPointAlgorithm(double[][] A, double[] B, double[] C, double[] xTrial, double alpha, double epsilon) {
         this.A = A;
@@ -17,6 +28,7 @@ class InteriorPointAlgorithm {
         this.xTrial = xTrial;
         this.alpha = alpha;
         this.epsilon = epsilon;
+        trialInput = true;
     }
 
     public double maximize() {
@@ -32,13 +44,33 @@ class InteriorPointAlgorithm {
         int n = c.length;
         RealMatrix AMatrix = MatrixUtils.createRealMatrix(A);
         RealVector cVector = MatrixUtils.createRealVector(c);
-        double[] x = xTrial;
+        double[] x = new double[n];
+        if (trialInput) {
+            assert xTrial != null;
+            x = xTrial.clone();
+        } else {
+            double xNow = 100000.0;
+            double curSum;
+            for (int i = 0; i < A.length; ++i) {
+                curSum = 0.0;
+                for (int j = 0; j < A[i].length; ++j) {
+                    curSum += A[i][j];
+                }
+                if (B[i] / curSum < xNow && B[i] / curSum > 0) {
+                    xNow = B[i] / curSum;
+                }
+            }
+            double nowSum;
+            for (int i = 0; i < A.length; ++i) {
+                nowSum = 0.0;
+                for (int j = 0; j < A.length; ++j) {
+                    nowSum += A[i][j] * xNow;
+                }
+                x[i] = xNow;
+                x[A.length + i] = B[i] - nowSum;
+            }
+        }
 
-//        // crutch -\_/-
-//        double[] x = new double[n];
-//        Arrays.fill(x, 2*epsilon);
-//        double difference = Arrays.stream(c).sum() - c[n-1] + 2*epsilon;
-//        x[n-1] = difference / c[n-1];
         RealVector v;
         RealMatrix D;
         RealMatrix A_tilda;
@@ -69,7 +101,7 @@ class InteriorPointAlgorithm {
 
             cp = P.operate(c_tilda);
             double nu = Math.abs(cp.getMinValue());
-            if (false) {
+            if (nu < 0) {
                 throw new RuntimeException("The method is not applicable!");
             }
             RealVector ones = new ArrayRealVector(n, 1.0);
