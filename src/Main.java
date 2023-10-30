@@ -7,7 +7,8 @@ import java.util.Scanner;
  */
 
 public class Main {
-    private static final double ALPHA = 0.5;
+    private static final double ALPHA05 = 0.5;
+    private static final double ALPHA09 = 0.9;
 
     /**
      * The main method for running the Interior-Point algorithm for linear programming problems.
@@ -41,13 +42,19 @@ public class Main {
         if (mode == 1) {
             System.out.println("Enter the trial solution: ");
             double[] xTrial = Arrays.stream(in.nextLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
-            InteriorPointAlgorithm solver = new InteriorPointAlgorithm(A, B, C, xTrial, ALPHA, epsilon);
-            System.out.println("Maximization result: " + solver.maximize());
-            System.out.println("Minimization result: " + solver.minimize());
+            InteriorPointAlgorithm solver05 = new InteriorPointAlgorithm(A, B, C, xTrial, ALPHA05, epsilon);
+            InteriorPointAlgorithm solver09 = new InteriorPointAlgorithm(A, B, C, xTrial, ALPHA09, epsilon);
+            System.out.println("Maximization result with alpha=0.5: " + solver05.maximize());
+            System.out.println("Minimization result with alpha=0.5: " + solver05.minimize());
+            System.out.println("Maximization result with alpha=0.9: " + solver09.maximize());
+            System.out.println("Minimization result with alpha=0.9: " + solver09.minimize());
         } else if (mode == 2) {
-            InteriorPointAlgorithm solver = new InteriorPointAlgorithm(A, B, C, ALPHA, epsilon);
-            System.out.println("Maximization result: " + solver.maximize());
-            System.out.println("Minimization result: " + solver.minimize());
+            InteriorPointAlgorithm solver05 = new InteriorPointAlgorithm(A, B, C, ALPHA05, epsilon);
+            InteriorPointAlgorithm solver09 = new InteriorPointAlgorithm(A, B, C, ALPHA09, epsilon);
+            System.out.println("Maximization result with alpha=0.5: " + solver05.maximize());
+            System.out.println("Minimization result with alpha=0.5: " + solver05.minimize());
+            System.out.println("Maximization result with alpha=0.9: " + solver09.maximize());
+            System.out.println("Minimization result with alpha=0.9: " + solver09.minimize());
         }
     }
 }

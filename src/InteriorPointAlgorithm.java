@@ -73,7 +73,7 @@ class InteriorPointAlgorithm {
 
         // Maximization algorithm implementation
 
-        return solve(C);
+        return solve(C, true);
     }
 
     /**
@@ -87,7 +87,7 @@ class InteriorPointAlgorithm {
         // Minimization algorithm implementation
 
         double[] negC = Arrays.stream(C).map(c -> -c).toArray();
-        return -solve(negC);
+        return -solve(negC, false);
     }
 
     /**
@@ -97,7 +97,7 @@ class InteriorPointAlgorithm {
      * @return The optimum value of the objective function for the given linear programming problem.
      */
 
-    private double solve(double[] c) {
+    private double solve(double[] c, boolean isMax) {
 
         // Algorithm to solve the linear programming problem
 
@@ -161,7 +161,7 @@ class InteriorPointAlgorithm {
 
             cp = P.operate(c_tilda);
             double nu = Math.abs(cp.getMinValue());
-            if (nu < 0) {
+            if (cp.getMinValue() >= 0) {
                 throw new RuntimeException("The method is not applicable!");
             }
             RealVector ones = new ArrayRealVector(n, 1.0);
@@ -169,6 +169,11 @@ class InteriorPointAlgorithm {
             RealVector x_new = D.operate(x_tilda);
             if (x_new.getDistance(v) < epsilon) {
                 Arrays.stream(x).forEach(i -> System.out.println(i + " "));
+                if (isMax) {
+                    System.out.println("\nThe result for the optimization problem: \n" + cVector.dotProduct(x_new) + "\n");
+                } else {
+                    System.out.println("\nThe result for the optimization problem: \n" + (-cVector.dotProduct(x_new)) + "\n");
+                }
                 return cVector.dotProduct(x_new);
             }
             if (iteration > 1000) {
