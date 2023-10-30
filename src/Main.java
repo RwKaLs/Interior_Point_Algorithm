@@ -1,11 +1,25 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * This class contains the main method to interact with the InteriorPointAlgorithm class.
+ * It allows the user to input the problem parameters and execute the Interior-Point algorithm.
+ */
+
 public class Main {
     private static final double ALPHA = 0.5;
 
+    /**
+     * The main method for running the Interior-Point algorithm for linear programming problems.
+     *
+     * @param args Command-line arguments (not used).
+     */
+
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
+        
+        // Input and algorithm execution code
+
         System.out.println("Enter the number of variables: ");
         int n = Integer.parseInt(in.nextLine());
         System.out.println("Enter the number of constraints: ");

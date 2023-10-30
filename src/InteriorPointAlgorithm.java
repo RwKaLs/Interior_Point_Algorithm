@@ -2,6 +2,11 @@ import org.apache.commons.math3.linear.*;
 
 import java.util.Arrays;
 
+/**
+ * This class represents an implementation of the Interior-Point algorithm for solving linear programming problems.
+ * It can be used to maximize or minimize a given objective function subject to linear constraints.
+ */
+
 class InteriorPointAlgorithm {
     private final double[][] A;
     private final double[] B;
@@ -11,7 +16,20 @@ class InteriorPointAlgorithm {
     private final double alpha;
     private final double epsilon;
 
+    /**
+     * Constructor for the InteriorPointAlgorithm class.
+     *
+     * @param A        The matrix representing the coefficients of linear constraints.
+     * @param B        The vector representing the right-hand side of linear constraints.
+     * @param C        The vector representing the coefficients of the objective function.
+     * @param alpha    The step size for the Interior-Point method.
+     * @param epsilon  The approximation accuracy for terminating the algorithm.
+     */
+
     public InteriorPointAlgorithm(double[][] A, double[] B, double[] C, double alpha, double epsilon) {
+        
+        // Constructor implementation
+
         this.A = A;
         this.B = B;
         this.C = C;
@@ -21,7 +39,21 @@ class InteriorPointAlgorithm {
         trialInput = false;
     }
 
+    /**
+     * Constructor for the InteriorPointAlgorithm class with a trial solution.
+     *
+     * @param A        The matrix representing the coefficients of linear constraints.
+     * @param B        The vector representing the right-hand side of linear constraints.
+     * @param C        The vector representing the coefficients of the objective function.
+     * @param xTrial   The trial solution for the algorithm.
+     * @param alpha    The step size for the Interior-Point method.
+     * @param epsilon  The approximation accuracy for terminating the algorithm.
+     */
+
     public InteriorPointAlgorithm(double[][] A, double[] B, double[] C, double[] xTrial, double alpha, double epsilon) {
+        
+        // Constructor implementation with a trial solution
+
         this.A = A;
         this.B = B;
         this.C = C;
@@ -31,16 +63,44 @@ class InteriorPointAlgorithm {
         trialInput = true;
     }
 
+    /**
+     * Maximizes the objective function using the Interior-Point algorithm.
+     *
+     * @return The maximum value of the objective function.
+     */
+
     public double maximize() {
+
+        // Maximization algorithm implementation
+
         return solve(C);
     }
 
+    /**
+     * Minimizes the objective function using the Interior-Point algorithm.
+     *
+     * @return The minimum value of the objective function.
+     */
+
     public double minimize() {
+        
+        // Minimization algorithm implementation
+
         double[] negC = Arrays.stream(C).map(c -> -c).toArray();
         return -solve(negC);
     }
 
+    /**
+     * Solves the linear programming problem for a given objective function.
+     *
+     * @param c The vector representing the coefficients of the objective function for this particular solve operation.
+     * @return The optimum value of the objective function for the given linear programming problem.
+     */
+
     private double solve(double[] c) {
+
+        // Algorithm to solve the linear programming problem
+
         int n = c.length;
         RealMatrix AMatrix = MatrixUtils.createRealMatrix(A);
         RealVector cVector = MatrixUtils.createRealVector(c);
