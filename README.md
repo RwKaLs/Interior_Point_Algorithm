@@ -7,7 +7,7 @@ This repository contains a Java implementation of the Interior Point Algorithm f
 Before running this code, make sure you have the following:
 
 - Java Development Kit (JDK) installed on your system.
-- Apache Commons Math library for linear algebra operations. You can download it from [here](http://commons.apache.org/proper/commons-math/).
+- Apache Commons Math library for linear algebra operations. You can download it from [here](https://commons.apache.org/proper/commons-math/download_math.cgi).
 
 ## How to Use
 
